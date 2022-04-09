@@ -7,26 +7,22 @@ import org.bouncycastle.crypto.generators.HKDFBytesGenerator;
 import org.bouncycastle.crypto.params.HKDFParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
-import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.interfaces.ECPrivateKey;
 import org.bouncycastle.jce.interfaces.ECPublicKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 import org.bouncycastle.jce.spec.ECNamedCurveSpec;
-import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.util.encoders.Hex;
 
 import javax.crypto.NoSuchPaddingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
-import java.security.spec.ECPoint;
 import java.security.spec.ECPrivateKeySpec;
 import java.security.spec.ECPublicKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class EciesImpl implements Ecies {
 
@@ -90,7 +86,7 @@ public class EciesImpl implements Ecies {
         org.bouncycastle.jce.spec.ECNamedCurveSpec curvedParams = new ECNamedCurveSpec(CURVE_NAME, ecSpec.getCurve(), ecSpec.getG(), ecSpec.getN());
 
         //generate receiver private key
-        ECPrivateKeySpec privateKeySpec = new ECPrivateKeySpec(new BigInteger(privateKeyBytes), curvedParams);
+        ECPrivateKeySpec privateKeySpec = new ECPrivateKeySpec(new BigInteger(1, privateKeyBytes), curvedParams);
         org.bouncycastle.jce.interfaces.ECPrivateKey receiverPrivKey = (ECPrivateKey) keyFactory.generatePrivate(privateKeySpec);
 
         //get sender pub key
